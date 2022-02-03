@@ -12,7 +12,11 @@ public class FileManager {
     private FileWriter fileWriter;
     private BufferedWriter output;
 
-
+    /**
+     * scrolls through a text file, to enter the strings into an arraylist
+     * @param archivo name of the file to scroll
+     * @return arrayList with the strings
+     */
     public ArrayList<String> lecturaFile(String archivo) {
         String archivoALeer="";
         if (archivo=="bancoPalabras"){
@@ -43,6 +47,10 @@ public class FileManager {
         return frases;
     }
 
+    /**
+     * writes a certain string inside the usuarios file
+     * @param linea the string to write
+     */
     public void escribirTexto(String linea){
         try {
             fileWriter = new FileWriter(usuarios,true);

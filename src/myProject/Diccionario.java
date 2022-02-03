@@ -16,6 +16,11 @@ public class Diccionario {
         usuariosRegistrados = fileManager.lecturaFile("usuarios");
     }
 
+    /**
+     * returns the words to memorize for the level
+     * @param cantidadPalabras count of words to memorize
+     * @return words to memorize
+     */
     public ArrayList<String> getPalabrasMemorizar(int cantidadPalabras) {
         for (int i = 0; i < cantidadPalabras; i++) {
             Random aleatory = new Random();
@@ -26,6 +31,11 @@ public class Diccionario {
         return palabrasMemorizar;
     }
 
+    /**
+     * returns the distraction words for the level
+     * @param cantidadPalabras count of distraction words
+     * @return distraction words
+     */
     public ArrayList<String> getPalabrasDistraccion(int cantidadPalabras) {
         for (int i = 0; i < cantidadPalabras; i++) {
             Random aleatory = new Random();
@@ -36,6 +46,11 @@ public class Diccionario {
         return palabrasDistraccion;
     }
 
+    /**
+     * search for a user within the registered users
+     * @param usuario user to know if is within the registered users
+     * @return whether or not
+     */
     public boolean isUser(String usuario) {
         boolean estaRegistrado = false;
         if (buscarUsuario(usuario)!=-1){
@@ -44,9 +59,20 @@ public class Diccionario {
         return estaRegistrado;
     }
 
+    /**
+     * join a user inside the registered users
+     * @param userName user to registered
+     * @param nivelesSuperados levels exceeded by the user
+     */
     public void newUser(String userName, int nivelesSuperados) {
         fileManager.escribirTexto(userName + ": " + nivelesSuperados);
     }
+
+    /**
+     * search for a user within the registered users
+     * @param nombreUsuario user to know if is within the registered users
+     * @return the posicion where the user it is
+     */
     private int buscarUsuario(String nombreUsuario){
         int posicion=-1;
         for (int i = 0; i < usuariosRegistrados.size(); i++) {
@@ -58,6 +84,12 @@ public class Diccionario {
         }
         return posicion;
     }
+
+    /**
+     * Returns the levels exceeded by the user
+     * @param userName user to know the levels
+     * @return levels exceeded by the user
+     */
     public int getNivelesUser(String userName){
         String usuario =usuariosRegistrados.get(buscarUsuario(userName));
         String nivelesEnString=usuario.substring(usuario.lastIndexOf(":")+2);
