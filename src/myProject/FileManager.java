@@ -67,4 +67,29 @@ public class FileManager {
             }
         }
     }
+    public void modificarNivelAprobado( int nuevoNivel, int posicion){
+        try {
+
+            ArrayList<String> usuariosActulizados=lecturaFile(usuarios);
+            String usuarioAntiguo=usuariosActulizados.get(posicion);
+            String usuarioActualizado = usuarioAntiguo.substring(0, usuarioAntiguo.lastIndexOf(":")+2) +  nuevoNivel;
+            usuariosActulizados.remove(posicion);
+            usuariosActulizados.add(posicion,usuarioActualizado);
+            fileWriter = new FileWriter(usuarios,false);
+            output = new BufferedWriter(fileWriter);
+            for (int i=0;i<usuariosActulizados.size();i++){
+                output.write(usuariosActulizados.get(i));
+                output.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
