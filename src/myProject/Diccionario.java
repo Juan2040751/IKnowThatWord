@@ -9,8 +9,10 @@ public class Diccionario {
     private ArrayList<String> usuariosRegistrados = new ArrayList<String>();
     private ArrayList<String> palabrasMemorizar = new ArrayList<String>();
     private ArrayList<String> palabrasDistraccion = new ArrayList<String>();
+    String userName;
 
-    public Diccionario() {
+    public Diccionario(String userName) {
+        this.userName=userName;
         fileManager = new FileManager();
         diccionario = fileManager.lecturaFile("bancoPalabras");
         usuariosRegistrados = fileManager.lecturaFile("usuarios");
@@ -48,12 +50,11 @@ public class Diccionario {
 
     /**
      * search for a user within the registered users
-     * @param usuario user to know if is within the registered users
      * @return whether or not
      */
-    public boolean isUser(String usuario) {
+    public boolean isUser() {
         boolean estaRegistrado = false;
-        if (buscarUsuario(usuario)!=-1){
+        if (buscarUsuario()!=-1){
             estaRegistrado=true;
         }
         return estaRegistrado;
@@ -61,23 +62,20 @@ public class Diccionario {
 
     /**
      * join a user inside the registered users
-     * @param userName user to registered
-     * @param nivelesSuperados levels exceeded by the user
      */
-    public void newUser(String userName, int nivelesSuperados) {
-        fileManager.escribirTexto(userName + ": " + nivelesSuperados);
+    public void newUser() {
+        fileManager.escribirTexto(userName + ": " + 0);
     }
 
     /**
      * search for a user within the registered users
-     * @param nombreUsuario user to know if is within the registered users
      * @return the posicion where the user it is
      */
-    private int buscarUsuario(String nombreUsuario){
+    private int buscarUsuario(){
         int posicion=-1;
         for (int i = 0; i < usuariosRegistrados.size(); i++) {
             String thisUser = usuariosRegistrados.get(i).substring(0, usuariosRegistrados.get(i).lastIndexOf(":"));
-            if (thisUser==nombreUsuario){
+            if (thisUser==userName){
                 posicion=i;
                 break;
             }
@@ -87,13 +85,16 @@ public class Diccionario {
 
     /**
      * Returns the levels exceeded by the user
-     * @param userName user to know the levels
      * @return levels exceeded by the user
      */
-    public int getNivelesUser(String userName){
-        String usuario =usuariosRegistrados.get(buscarUsuario(userName));
+    public int getNivelesUser(){
+        String usuario =usuariosRegistrados.get(buscarUsuario());
         String nivelesEnString=usuario.substring(usuario.lastIndexOf(":")+2);
         return Integer.valueOf (nivelesEnString);
+    }
+    public int setNivelUser(){
+        fileManager.modificarNivelAprobado(getNivelesUser()+1,buscarUsuario());
+        return getNivelesUser();
     }
 }
 

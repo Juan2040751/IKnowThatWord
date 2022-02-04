@@ -2,6 +2,9 @@ package myProject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * This class is used for ...
@@ -17,6 +20,9 @@ public class GUI extends JFrame {
      */
     public GUI(){
         initGUI();
+
+
+
 
         //Default JFrame configuration
         this.setTitle("The Title app");
