@@ -73,12 +73,13 @@ public class Diccionario {
      */
     private int buscarUsuario(){
         int posicion=-1;
-        for (int i = 0; i < usuariosRegistrados.size(); i++) {
+        for (int i = 0; i < usuariosRegistrados.size()&&usuariosRegistrados.get(i)!=" "; i++) {
             String thisUser = usuariosRegistrados.get(i).substring(0, usuariosRegistrados.get(i).lastIndexOf(":"));
-            if (thisUser==userName){
+            if (thisUser.equals(userName)){
                 posicion=i;
                 break;
             }
+
         }
         return posicion;
     }
@@ -88,10 +89,15 @@ public class Diccionario {
      * @return levels exceeded by the user
      */
     public int getNivelesUser(){
-        String usuario =usuariosRegistrados.get(buscarUsuario());
+        String usuario= usuariosRegistrados.get(buscarUsuario());
         String nivelesEnString=usuario.substring(usuario.lastIndexOf(":")+2);
         return Integer.valueOf (nivelesEnString);
     }
+
+    /**
+     * modifies the level of the game in the text file
+     * @return the new level of the game
+     */
     public int setNivelUser(){
         fileManager.modificarNivelAprobado(getNivelesUser()+1,buscarUsuario());
         return getNivelesUser();

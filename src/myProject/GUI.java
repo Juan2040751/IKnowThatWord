@@ -21,6 +21,7 @@ public class GUI extends JFrame {
     public GUI(){
         initGUI();
 
+        ModelGame modelGame=new ModelGame("FLeandro");
 
 
 
