@@ -7,15 +7,19 @@ public class ModelGame {
     Diccionario diccionario;
     String nombreUsuario;
     int nivelesAprobados, nivelActual, palabrasEnNivel, aciertos;
+    double porcentajeAciertos;
     ArrayList<String> palabrasNivel,palabrasMemorizar, palabrasDistraccion;
+    boolean nuevoUsuario;
 
     ModelGame(String nombreUsuario){
+        nuevoUsuario=false;
         this.nombreUsuario=nombreUsuario;
         diccionario= new Diccionario(nombreUsuario);
         if (diccionario.isUser()){
             nivelesAprobados= diccionario.getNivelesUser();
         }else{
             diccionario.newUser();
+            nuevoUsuario=true;
             nivelesAprobados=0;
         }
         aciertos=0;
@@ -27,13 +31,38 @@ public class ModelGame {
     }
 
     /**
-     * advance the level of the game  and save the new info of the player in the file text
+     * advance the level of the game
      */
     private void setNivelActual(){
-        nivelesAprobados= diccionario.setNivelUser();
-        nivelActual=nivelesAprobados+1;
+        setPorcentajeAciertos();
+        if(aciertos>=palabrasEnNivel*porcentajeAciertos){
+            setNivelesAprobados();
+            nivelActual=nivelesAprobados+1;
+        }
+
     }
 
+    /**
+     * update nivelesAprobados
+     */
+    private void setNivelesAprobados(){
+        nivelesAprobados= diccionario.setNivelUser();
+    }
+
+    /**
+     * assigns the percent of hits needed to change of level
+     */
+    private void setPorcentajeAciertos(){
+        switch (nivelActual){
+            case 1, 2 -> porcentajeAciertos=0.7;
+            case 3-> porcentajeAciertos=0.75;
+            case 4, 5 -> porcentajeAciertos=0.8;
+            case 6-> porcentajeAciertos=0.85;
+            case 7, 8 -> porcentajeAciertos=0.9;
+            case 9-> porcentajeAciertos=0.95;
+            case 10->porcentajeAciertos=1;
+        }
+    }
     /**
      * assigns the number of words to be displayed in the game
      */
@@ -121,4 +150,27 @@ public class ModelGame {
     public int  getAciertos(){
         return aciertos;
     }
+
+    /**
+     * say if the actual user is whether a new user
+     * @return whether is a new user
+     */
+    public boolean isNuevoUsuario() {
+        return nuevoUsuario;
+    }
+
+    /**
+     * @return the actual level of the game
+     */
+    public int getNivelActual() {
+        return nivelActual;
+    }
+
+    /**
+     * @return words to be memorized
+     */
+    public ArrayList<String> getPalabrasMemorizar() {
+        return palabrasMemorizar;
+    }
+
 }
