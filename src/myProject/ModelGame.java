@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class ModelGame {
     Diccionario diccionario;
-    String nombreUsuario;
-    int nivelesAprobados, nivelActual, palabrasEnNivel, aciertos;
+    String nombreUsuario,palabraAMostrar;
+    int nivelesAprobados, nivelActual, palabrasEnNivel, aciertos, flagMemorizar, flagNivel;
     double porcentajeAciertos;
     ArrayList<String> palabrasNivel,palabrasMemorizar, palabrasDistraccion;
     boolean nuevoUsuario;
@@ -23,30 +23,51 @@ public class ModelGame {
             nivelesAprobados=0;
         }
         aciertos=0;
+        flagMemorizar=0;
         nivelActual=nivelesAprobados+1;
+        palabraAMostrar="";
         setPalabrasEnNivel();
         palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
         palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
         palabrasNivel= new ArrayList<>();
+        setPalabrasNivel();
     }
 
     /**
      * advance the level of the game
      */
     private void setNivelActual(){
-        setPorcentajeAciertos();
-        if(aciertos>=palabrasEnNivel*porcentajeAciertos){
-            setNivelesAprobados();
-            nivelActual=nivelesAprobados+1;
-        }
-
+        aciertos=0;
+        nivelActual=nivelesAprobados+1;
+        setPalabrasEnNivel();
+        palabraAMostrar="";
+        palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
+        palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
+        palabrasNivel= new ArrayList<>();
+        setPalabrasNivel();
     }
 
     /**
-     * update nivelesAprobados
+     * check if it is sufficient to pass the level
      */
     private void setNivelesAprobados(){
-        nivelesAprobados= diccionario.setNivelUser();
+        if(aciertos>=palabrasEnNivel*porcentajeAciertos){
+            nivelesAprobados= diccionario.setNivelUser();
+            setNivelActual();
+            flagNivel=0;
+            flagMemorizar=0;
+        }
+        else{
+            flagNivel=0;
+            flagMemorizar=0;
+            setPalabrasEnNivel();
+            palabraAMostrar="";
+            palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
+            palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
+            palabrasNivel= new ArrayList<>();
+            setPalabrasNivel();
+        }
+
     }
 
     /**
@@ -66,7 +87,8 @@ public class ModelGame {
     /**
      * assigns the number of words to be displayed in the game
      */
-    private void setPalabrasEnNivel(){
+    private void
+    setPalabrasEnNivel(){
         switch (nivelActual){
             case 1-> palabrasEnNivel=20;
             case 2-> palabrasEnNivel=40;
@@ -82,14 +104,14 @@ public class ModelGame {
     }
 
     /**
-     * creates a random pattern to show distraction words and words to memorize in the game
+     * creates a random pattern to show distraction words and the words to memorize in the game
      */
     private void setPalabrasNivel(){
 
         ArrayList<String> palabrasAMemorizar=palabrasMemorizar;
         ArrayList<String> palabrasADistraer=palabrasDistraccion;
 
-        for (int i=0;palabrasNivel.size()<palabrasEnNivel;i++){
+        while (palabrasNivel.size()<palabrasEnNivel) {
             Random aleatory = new Random();
 
             int aletorio = aleatory.nextInt(0,3);
@@ -111,9 +133,14 @@ public class ModelGame {
      * return the all the words to show in the game
      * @return arrayList with the words
      */
-    public ArrayList<String> getPalabrasNivel(){
-        setPalabrasNivel();
-        return palabrasNivel;
+    public String getPalabrasNivel(){
+        if (flagNivel<palabrasNivel.size()){
+            palabraAMostrar=palabrasNivel.get(flagNivel);
+            flagNivel++;
+        }else{
+            setNivelesAprobados();
+        }
+        return palabraAMostrar;
     }
 
     /**
@@ -134,11 +161,10 @@ public class ModelGame {
 
     /**
      * check if the user's answer is correct
-     * @param palabraActual word to review
      * @param respuestaUsuario user's answer
      */
-    public void setAciertos(String palabraActual, boolean respuestaUsuario){
-        boolean respuestaCorrecta= esPalabraAMemorizar(palabraActual);
+    public void setAciertos( boolean respuestaUsuario){
+        boolean respuestaCorrecta= esPalabraAMemorizar(palabraAMostrar);
         if (respuestaUsuario== respuestaCorrecta){
                aciertos++;
         }
@@ -169,8 +195,13 @@ public class ModelGame {
     /**
      * @return words to be memorized
      */
-    public ArrayList<String> getPalabrasMemorizar() {
-        return palabrasMemorizar;
+    public String getPalabrasMemorizar() {
+        String palabraMemorizar="";
+        if (flagMemorizar<palabrasMemorizar.size()){
+            palabraMemorizar=palabrasMemorizar.get(flagMemorizar);
+            flagMemorizar++;
+        }
+        return palabraMemorizar;
     }
 
 }

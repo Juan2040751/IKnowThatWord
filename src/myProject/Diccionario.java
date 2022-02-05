@@ -99,7 +99,11 @@ public class Diccionario {
      * @return the new level of the game
      */
     public int setNivelUser(){
-        fileManager.modificarNivelAprobado(getNivelesUser()+1,buscarUsuario());
+        if(getNivelesUser()<10){
+            fileManager.modificarNivelAprobado(getNivelesUser()+1,buscarUsuario());
+        }else{
+            fileManager.modificarNivelAprobado(0,buscarUsuario());
+        }
         return getNivelesUser();
     }
 }
