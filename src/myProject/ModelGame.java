@@ -6,7 +6,7 @@ import java.util.Random;
 public class ModelGame {
     Diccionario diccionario;
     String nombreUsuario;
-    int nivelesAprobados, nivelActual, palabrasEnNivel;
+    int nivelesAprobados, nivelActual, palabrasEnNivel, aciertos;
     ArrayList<String> palabrasNivel,palabrasMemorizar, palabrasDistraccion;
 
     ModelGame(String nombreUsuario){
@@ -18,6 +18,7 @@ public class ModelGame {
             diccionario.newUser();
             nivelesAprobados=0;
         }
+        aciertos=0;
         nivelActual=nivelesAprobados+1;
         setPalabrasEnNivel();
         palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
@@ -26,9 +27,9 @@ public class ModelGame {
     }
 
     /**
-     * advance the level of the game
+     * advance the level of the game  and save the new info of the player in the file text
      */
-    private void actualizarNivel(){
+    private void setNivelActual(){
         nivelesAprobados= diccionario.setNivelUser();
         nivelActual=nivelesAprobados+1;
     }
@@ -84,5 +85,40 @@ public class ModelGame {
     public ArrayList<String> getPalabrasNivel(){
         setPalabrasNivel();
         return palabrasNivel;
+    }
+
+    /**
+     * check if it's a word to memorize
+     * @param palabra word to check
+     * @return whether or not
+     */
+    private boolean esPalabraAMemorizar(String palabra){
+        boolean esPalabraA= false;
+        for (int i = 0; i < palabrasMemorizar.size() ; i++) {
+            if (palabrasMemorizar.get(i).equals(palabra)){
+                esPalabraA=true;
+                break;
+            }
+        }
+        return esPalabraA;
+    }
+
+    /**
+     * check if the user's answer is correct
+     * @param palabraActual word to review
+     * @param respuestaUsuario user's answer
+     */
+    public void setAciertos(String palabraActual, boolean respuestaUsuario){
+        boolean respuestaCorrecta= esPalabraAMemorizar(palabraActual);
+        if (respuestaUsuario== respuestaCorrecta){
+               aciertos++;
+        }
+    }
+
+    /**
+     * @return the number of success
+     */
+    public int  getAciertos(){
+        return aciertos;
     }
 }
