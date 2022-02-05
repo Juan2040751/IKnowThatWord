@@ -24,7 +24,11 @@ public class ModelGame {
         }
         aciertos=0;
         flagMemorizar=0;
-        nivelActual=nivelesAprobados+1;
+        if (nivelesAprobados<8) {
+            nivelActual = nivelesAprobados + 1;
+        }else {
+            nivelActual = nivelesAprobados;
+        }
         palabraAMostrar="";
         setPalabrasEnNivel();
         palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
@@ -168,6 +172,12 @@ public class ModelGame {
         if (respuestaUsuario== respuestaCorrecta){
                aciertos++;
         }
+    }
+
+    /**
+     * method overload in case of no response..
+     */
+    public void setAciertos(){
     }
 
     /**
