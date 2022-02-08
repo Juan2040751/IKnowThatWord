@@ -11,6 +11,10 @@ public class Diccionario {
     private ArrayList<String> palabrasDistraccion = new ArrayList<String>();
     String userName;
 
+    /**
+     * assigns initial values that are essential for running the game
+     * @param userName name of the current game user
+     */
     public Diccionario(String userName) {
         this.userName=userName;
         fileManager = new FileManager();

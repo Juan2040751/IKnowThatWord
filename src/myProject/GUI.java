@@ -21,8 +21,8 @@ public class GUI extends JFrame {
     public GUI(){
         initGUI();
 
-
-
+        ModelGame modelGame = new ModelGame("Jujo");
+        System.out.println(modelGame.getPalabrasMemorizar());
         //Default JFrame configuration
         this.setTitle("The Title app");
         this.setSize(200,100);
