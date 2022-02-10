@@ -4,3 +4,6 @@ Jj: 2
 me: 0
 Jujo: 8
 FLeandro: 1
+JUJOV: 0
+Juan Jose Viafara Carabali: 0
+Jujov: 0
