@@ -31,7 +31,7 @@ public class GUIGridBagLayout extends JFrame {
         initGUI();
         //Default JFrame configuration
         this.setTitle("I know that word!!");
-        this.setSize(200,100);
+        //this.setSize(200,100);
         this.pack();
         this.setResizable(true);
         this.setVisible(true);
@@ -55,7 +55,15 @@ public class GUIGridBagLayout extends JFrame {
         aciertosRequeridos = new JTextArea(2,2);
         inicio = new JTextArea(1,2);
 
-
+        headerProject = new Header("", Color.BLACK);
+        headerProject.setPreferredSize(new Dimension(20, 30));
+        headerProject.setVisible(false);
+        constrains.gridx = 0;
+        constrains.gridy = 0;
+        constrains.gridwidth = 2;
+        constrains.fill = GridBagConstraints.HORIZONTAL;
+        add(headerProject,constrains);
+        
 
         imageBienvenido = new ImageIcon(getClass().getResource("/Resources/img.png"));
         imagen = new JLabel(imageBienvenido);
@@ -142,17 +150,14 @@ public class GUIGridBagLayout extends JFrame {
                 usuario = nombreUsuario.getText();
                 modelGame = new ModelGame(usuario);
 
-                headerProject = new Header("Debes memorizar las siguientes "+modelGame.palabrasEnNivel+" palabras", Color.BLACK);
-                headerProject.setPreferredSize(new Dimension(20, 30));
-                constrains.gridx = 0;
-                constrains.gridy = 0;
-                constrains.gridwidth = 2;
-                constrains.fill = GridBagConstraints.HORIZONTAL;
-                add(headerProject,constrains);
-                panelInteraccion.remove(inicio);
-                panelInteraccion.remove(registrar);
-                panelInteraccion.remove(nombreUsuario);
-                panelDatos.remove(imagen);
+                panelInteraccion.setPreferredSize(new Dimension(396,500));
+                panelDatos.setPreferredSize(new Dimension(264,500));
+                
+                headerProject.setVisible(true);
+                headerProject.setText("Debes memorizar las siguientes "+modelGame.palabrasEnNivel+" palabras");
+                
+                panelInteraccion.removeAll();
+                panelDatos.removeAll();
 
                 nivel = new JTextArea();
                 nivel.setText("Nivel: "+modelGame.getNivelActual());
@@ -176,10 +181,8 @@ public class GUIGridBagLayout extends JFrame {
                 constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                 panelInteraccion.add(palabraMemorizar, constrainsInteraccion);
 
-                modelGame.
 
-                panelInteraccion.setPreferredSize(new Dimension(396,530));
-                panelDatos.setPreferredSize(new Dimension(264,530));
+
 
 
                 repaint();
