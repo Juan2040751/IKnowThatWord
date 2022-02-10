@@ -16,13 +16,15 @@ public class GUIGridBagLayout extends JFrame {
     private Header headerProject;
     private JButton si, no, continuar, registrar;
     private JPanel panelInteraccion, panelDatos;
-    private JTextArea aciertosRequeridos, nivel, inicio, palabraMemorizar;
+    private JTextArea aciertosRequeridos, nivel, inicio, palabraMemorizar, tiempo;
     private Escucha escucha;
     private ModelGame modelGame;
     private ImageIcon imageBienvenido;
     private JLabel imagen;
     private JTextField nombreUsuario;
     private GridBagConstraints constrains, constrainsDatos, constrainsInteraccion;
+    private Timer timer, temporizador ;
+    private int segundos;
 
     /**
      * Constructor of GUI class
@@ -52,8 +54,9 @@ public class GUIGridBagLayout extends JFrame {
         //Create Listener Object and Control Object
         escucha = new Escucha();
         //Set up JComponents
-        aciertosRequeridos = new JTextArea(2,2);
-        inicio = new JTextArea(1,2);
+        aciertosRequeridos = new JTextArea(2, 2);
+        inicio = new JTextArea(1, 2);
+        tiempo = new JTextArea(1, 2);
 
         headerProject = new Header("", Color.BLACK);
         headerProject.setPreferredSize(new Dimension(20, 30));
@@ -62,8 +65,8 @@ public class GUIGridBagLayout extends JFrame {
         constrains.gridy = 0;
         constrains.gridwidth = 2;
         constrains.fill = GridBagConstraints.HORIZONTAL;
-        add(headerProject,constrains);
-        
+        add(headerProject, constrains);
+
 
         imageBienvenido = new ImageIcon(getClass().getResource("/Resources/img.png"));
         imagen = new JLabel(imageBienvenido);
@@ -76,10 +79,10 @@ public class GUIGridBagLayout extends JFrame {
         constrains.gridwidth = 1;
         constrains.fill = GridBagConstraints.VERTICAL;
         constrains.anchor = GridBagConstraints.CENTER;
-        add(panelInteraccion,constrains);
+        add(panelInteraccion, constrains);
 
         inicio.setText("REGISTRA TU USUARIO \nO CREA UNO");
-        inicio.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,18));
+        inicio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 18));
         inicio.setBackground(null);
         inicio.setEditable(false);
         constrainsInteraccion.gridx = 0;
@@ -88,16 +91,16 @@ public class GUIGridBagLayout extends JFrame {
         panelInteraccion.add(inicio, constrainsInteraccion);
 
         panelDatos = new JPanel(new GridBagLayout());
-        panelDatos.setBackground(new Color(196,196,196));
+        panelDatos.setBackground(new Color(196, 196, 196));
         panelDatos.setPreferredSize(new Dimension(330, 530));
         constrains.gridx = 1;
         constrains.gridy = 1;
         constrains.fill = GridBagConstraints.VERTICAL;
         constrains.anchor = GridBagConstraints.CENTER;
-        add(panelDatos,constrains);
+        add(panelDatos, constrains);
 
         nombreUsuario = new JTextField();
-        nombreUsuario.setPreferredSize(new Dimension(250,20));
+        nombreUsuario.setPreferredSize(new Dimension(250, 20));
         constrainsInteraccion.gridx = 0;
         constrainsInteraccion.gridy = 1;
         constrainsInteraccion.anchor = GridBagConstraints.WEST;
@@ -115,6 +118,8 @@ public class GUIGridBagLayout extends JFrame {
         constrainsInteraccion.anchor = GridBagConstraints.SOUTH;
         panelInteraccion.add(registrar, constrainsInteraccion);
 
+
+
         continuar = new JButton("Continuar");
         continuar.addActionListener(escucha);
 
@@ -124,6 +129,8 @@ public class GUIGridBagLayout extends JFrame {
         no = new JButton("No");
         no.addActionListener(escucha);
 
+        timer = new Timer(5000, escucha);
+        temporizador = new Timer(1000, escucha);
 
     }
 
@@ -142,7 +149,7 @@ public class GUIGridBagLayout extends JFrame {
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
     private class Escucha implements ActionListener {
-
+        private int counter;
         @Override
         public void actionPerformed(ActionEvent e) {
             String usuario = "";
@@ -154,7 +161,7 @@ public class GUIGridBagLayout extends JFrame {
                 panelDatos.setPreferredSize(new Dimension(264,500));
                 
                 headerProject.setVisible(true);
-                headerProject.setText("Debes memorizar las siguientes "+modelGame.palabrasEnNivel+" palabras");
+                headerProject.setText("Debes memorizar las siguientes "+ modelGame.palabrasEnNivel/2 +" palabras");
                 
                 panelInteraccion.removeAll();
                 panelDatos.removeAll();
@@ -170,6 +177,19 @@ public class GUIGridBagLayout extends JFrame {
                 constrainsDatos.anchor = GridBagConstraints.CENTER;
                 panelDatos.add(nivel, constrainsDatos);
 
+                segundos = 5;
+                tiempo = new JTextArea();
+                tiempo.setText(String.valueOf(segundos));
+                tiempo.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,30));
+                tiempo.setSize(40,30);
+                tiempo.setBackground(new Color(34, 85, 85));
+                tiempo.setEditable(false);
+                constrainsInteraccion.gridx = 0;
+                constrainsInteraccion.gridy = 0;
+                constrainsInteraccion.gridwidth=1;
+                constrainsInteraccion.anchor = GridBagConstraints.PAGE_START;
+                panelInteraccion.add(tiempo, constrainsInteraccion);
+
                 palabraMemorizar = new JTextArea();
                 palabraMemorizar.setText(modelGame.getPalabrasMemorizar());
                 palabraMemorizar.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,50));
@@ -177,16 +197,32 @@ public class GUIGridBagLayout extends JFrame {
                 palabraMemorizar.setEditable(false);
                 constrainsInteraccion.gridx = 0;
                 constrainsInteraccion.gridy = 1;
+                constrainsInteraccion.weighty=450;
                 constrainsInteraccion.fill =  GridBagConstraints.NONE;
                 constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                 panelInteraccion.add(palabraMemorizar, constrainsInteraccion);
 
 
-
-
+                timer.start();
+                temporizador.start();
 
                 repaint();
                 revalidate();
+            }
+            else if(e.getSource()==timer){
+                palabraMemorizar.setText(modelGame.getPalabrasMemorizar());
+                if (modelGame.getPalabrasMemorizar()==""){
+                    timer.stop();
+                    temporizador.stop();
+                }
+            }
+            else if (e.getSource()==temporizador){
+                segundos--;
+                if (segundos==0){
+                    segundos=5;
+                }
+                tiempo.setText(String.valueOf(segundos));
+
             }
         }
 
