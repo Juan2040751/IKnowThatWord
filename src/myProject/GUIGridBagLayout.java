@@ -16,13 +16,13 @@ public class GUIGridBagLayout extends JFrame {
     private Header headerProject;
     private JButton si, no, continuar, registrar;
     private JPanel panelInteraccion, panelDatos;
-    private JTextArea aciertosRequeridos, nivel, inicio;
+    private JTextArea aciertosRequeridos, nivel, inicio, palabraMemorizar;
     private Escucha escucha;
     private ModelGame modelGame;
     private ImageIcon imageBienvenido;
     private JLabel imagen;
     private JTextField nombreUsuario;
-    private GridBagConstraints constrainsDatos;
+    private GridBagConstraints constrains, constrainsDatos, constrainsInteraccion;
 
     /**
      * Constructor of GUI class
@@ -46,20 +46,15 @@ public class GUIGridBagLayout extends JFrame {
     private void initGUI() {
         //Set up JFrame Container's Layout
         this.getContentPane().setLayout(new GridBagLayout());
-        GridBagConstraints constrains = new GridBagConstraints();
-        GridBagConstraints constrainsInteraccion = new GridBagConstraints();
+        constrains = new GridBagConstraints();
+        constrainsInteraccion = new GridBagConstraints();
         constrainsDatos = new GridBagConstraints();
         //Create Listener Object and Control Object
         escucha = new Escucha();
         //Set up JComponents
         aciertosRequeridos = new JTextArea(2,2);
         inicio = new JTextArea(1,2);
-        headerProject = new Header("Debes memorizar las siguientes palabras", Color.BLACK);
-        headerProject.setVisible(false);
-        constrains.gridx = 0;
-        constrains.gridy = 0;
-        constrains.fill = GridBagConstraints.HORIZONTAL;
-        this.add(headerProject,constrains); //Change this line if you change JFrame Container's Layout
+
 
 
         imageBienvenido = new ImageIcon(getClass().getResource("/Resources/img.png"));
@@ -70,6 +65,7 @@ public class GUIGridBagLayout extends JFrame {
         panelInteraccion.setBackground(new Color(112, 219, 12));
         constrains.gridx = 0;
         constrains.gridy = 1;
+        constrains.gridwidth = 1;
         constrains.fill = GridBagConstraints.VERTICAL;
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelInteraccion,constrains);
@@ -146,22 +142,48 @@ public class GUIGridBagLayout extends JFrame {
                 usuario = nombreUsuario.getText();
                 modelGame = new ModelGame(usuario);
 
-
-                headerProject.setVisible(true);
-                panelInteraccion.removeAll();
-                panelDatos.removeAll();
+                headerProject = new Header("Debes memorizar las siguientes "+modelGame.palabrasEnNivel+" palabras", Color.BLACK);
+                headerProject.setPreferredSize(new Dimension(20, 30));
+                constrains.gridx = 0;
+                constrains.gridy = 0;
+                constrains.gridwidth = 2;
+                constrains.fill = GridBagConstraints.HORIZONTAL;
+                add(headerProject,constrains);
+                panelInteraccion.remove(inicio);
+                panelInteraccion.remove(registrar);
+                panelInteraccion.remove(nombreUsuario);
+                panelDatos.remove(imagen);
 
                 nivel = new JTextArea();
                 nivel.setText("Nivel: "+modelGame.getNivelActual());
-                nivel.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,18));
+                nivel.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,25));
                 nivel.setBackground(null);
                 nivel.setEditable(false);
                 constrainsDatos.gridx = 0;
                 constrainsDatos.gridy = 0;
                 constrainsDatos.fill =  GridBagConstraints.BOTH;
                 constrainsDatos.anchor = GridBagConstraints.CENTER;
-
                 panelDatos.add(nivel, constrainsDatos);
+
+                palabraMemorizar = new JTextArea();
+                palabraMemorizar.setText(modelGame.getPalabrasMemorizar());
+                palabraMemorizar.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,50));
+                palabraMemorizar.setBackground(null);
+                palabraMemorizar.setEditable(false);
+                constrainsInteraccion.gridx = 0;
+                constrainsInteraccion.gridy = 1;
+                constrainsInteraccion.fill =  GridBagConstraints.NONE;
+                constrainsInteraccion.anchor = GridBagConstraints.CENTER;
+                panelInteraccion.add(palabraMemorizar, constrainsInteraccion);
+
+                modelGame.
+
+                panelInteraccion.setPreferredSize(new Dimension(396,530));
+                panelDatos.setPreferredSize(new Dimension(264,530));
+
+
+                repaint();
+                revalidate();
             }
         }
 
