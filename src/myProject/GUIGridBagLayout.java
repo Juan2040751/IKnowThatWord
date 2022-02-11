@@ -190,7 +190,7 @@ public class GUIGridBagLayout extends JFrame {
                 constrainsInteraccion.gridx = 0;
                 constrainsInteraccion.gridy = 0;
                 constrainsInteraccion.gridwidth=1;
-                constrainsInteraccion.weightx=198;
+                constrainsInteraccion.weightx=180;
                 constrainsInteraccion.weighty=50;
                 constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                 panelInteraccion.add(aciertos, constrainsInteraccion);
@@ -244,31 +244,45 @@ public class GUIGridBagLayout extends JFrame {
                 revalidate();
             }
             else if(e.getSource()==timer){
-                palabra.setText(modelGame.getPalabrasMemorizar());
+                if (interfaz==2){
+                    palabra.setText(modelGame.getPalabrasMemorizar());
 
-                //cuando ya no hay mas palabras para memorizar
-                if (modelGame.getPalabrasMemorizar()==""&&interfaz==2){
-                    timer.stop();
-                    temporizador.stop();
-                    interfaz=3;
+                    //cuando ya no hay mas palabras para memorizar
+                    if (modelGame.getPalabrasMemorizar()==""){
+                        timer.stop();
+                        temporizador.stop();
+                        interfaz=3;
 
-                    panelInteraccion.remove(espacioVacio);
+                        panelInteraccion.remove(espacioVacio);
 
-                    continuar.setVisible(true);
-                    constrainsInteraccion.gridx = 0;
-                    constrainsInteraccion.gridy = 2;
-                    constrainsInteraccion.gridwidth=2;
-                    constrainsInteraccion.weighty=250;
-                    constrainsInteraccion.anchor = GridBagConstraints.NORTH;
-                    panelInteraccion.add(continuar, constrainsInteraccion);
-                    
+                        continuar.setVisible(true);
+                        constrainsInteraccion.gridx = 0;
+                        constrainsInteraccion.gridy = 2;
+                        constrainsInteraccion.gridwidth=2;
+                        constrainsInteraccion.weighty=250;
+                        constrainsInteraccion.anchor = GridBagConstraints.NORTH;
+                        panelInteraccion.add(continuar, constrainsInteraccion);
 
-                    segundos=0;
-                    tiempo.setText(String.valueOf("    "+segundos+"    "));
 
-                    palabra.setText("¿Deseas continuar a \nla siguiente fase?");
-                    palabra.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,40));
+                        segundos=0;
+                        tiempo.setText(String.valueOf("    "+segundos+"    "));
+
+                        palabra.setText("¿Deseas continuar a \nla siguiente fase?");
+                        palabra.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,40));
+                    }
                 }
+                else if (interfaz==3){
+                    palabra.setText(modelGame.getPalabrasNivel());
+
+                    if (modelGame.getPalabrasNivel()==""){
+                        // temporal, aqui se pondra el codigo para pasar o cambiar al siguiente nivel
+                        timer.stop();
+                        temporizador.stop();
+                        si.setVisible(false);
+                        no.setVisible(false);
+                    }
+                }
+
             }
             else if (e.getSource()==temporizador){
                 segundos--;
@@ -281,12 +295,13 @@ public class GUIGridBagLayout extends JFrame {
                 tiempo.setText(String.valueOf("    "+segundos+"    "));
 
             }
-            //crear el boton continuar, desde ahi pasas a la tercera interfaz (interfaz=3),
             else if(e.getSource()==continuar){
 
                 segundos=7;
                 tiempo.setText(String.valueOf("    "+segundos+"    "));
+
                 interfaz=3;
+                continuar.setVisible(false);
                 panelInteraccion.remove(continuar);
                 aciertos.setText("Aciertos: "+modelGame.getAciertos());
                 palabra.setText(modelGame.getPalabrasNivel());
@@ -310,7 +325,7 @@ public class GUIGridBagLayout extends JFrame {
                 constrainsInteraccion.gridy = 2;
                 constrainsInteraccion.gridwidth=1;
                 constrainsInteraccion.weighty=250;
-                constrainsInteraccion.anchor = GridBagConstraints.CENTER;
+                constrainsInteraccion.anchor = GridBagConstraints.NORTH;
                 panelInteraccion.add(si, constrainsInteraccion);
 
                 no.setVisible(true);
@@ -318,17 +333,31 @@ public class GUIGridBagLayout extends JFrame {
                 constrainsInteraccion.gridy = 2;
                 constrainsInteraccion.gridwidth=1;
                 constrainsInteraccion.weighty=250;
-                constrainsInteraccion.anchor = GridBagConstraints.CENTER;
+                constrainsInteraccion.anchor = GridBagConstraints.NORTH;
                 panelInteraccion.add(no, constrainsInteraccion);
 
-                timer.setDelay(7000);
+                timer = new Timer(7000,escucha);
                 timer.start();
                 temporizador.start();
 
 
             }
-            // alli haces algo similar a lo que hiciste para pasar a la segunda interfaz en el boton 'registrarse'
-            //dejas lo que nesecitas quitas lo que no.
+            else if(e.getSource()==si){
+                modelGame.setAciertos(true);
+                aciertos.setText("Aciertos: "+modelGame.getAciertos());
+                palabra.setText(modelGame.getPalabrasNivel());
+                segundos=7;
+                tiempo.setText(String.valueOf("    "+segundos+"    "));
+                timer.restart();
+            }else if(e.getSource()==no){
+                modelGame.setAciertos(false);
+                aciertos.setText("Aciertos: "+modelGame.getAciertos());
+                palabra.setText(modelGame.getPalabrasNivel());
+                segundos=7;
+                tiempo.setText(String.valueOf("    "+segundos+"    "));
+                timer.restart();
+            }
+
         }
 
     }
