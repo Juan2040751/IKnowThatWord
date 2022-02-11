@@ -30,8 +30,13 @@ public class FileManager {
             input = new BufferedReader(fileReader);
             String line = input.readLine();
             while(line!=null){
-                frases.add(line);
-                line=input.readLine();
+                if (line.startsWith("--")){
+                    line=input.readLine();
+                }else{
+                    frases.add(line);
+                    line=input.readLine();
+                }
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

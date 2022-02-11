@@ -11,6 +11,11 @@ public class ModelGame {
     ArrayList<String> palabrasNivel,palabrasMemorizar, palabrasDistraccion;
     boolean nuevoUsuario;
 
+    /**
+     *assigns initial values that are essential for running the game
+     * check if the user entered is a new user and if it is not, order its creation
+     * @param nombreUsuario name of the current game user
+     */
     ModelGame(String nombreUsuario){
         nuevoUsuario=false;
         this.nombreUsuario=nombreUsuario;
@@ -24,17 +29,14 @@ public class ModelGame {
         }
         aciertos=0;
         flagMemorizar=0;
+        flagNivel=0;
+        setNivelActual();
         if (nivelesAprobados<8) {
             nivelActual = nivelesAprobados + 1;
         }else {
             nivelActual = nivelesAprobados;
         }
-        palabraAMostrar="";
-        setPalabrasEnNivel();
-        palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
-        palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
-        palabrasNivel= new ArrayList<>();
-        setPalabrasNivel();
+
     }
 
     /**
@@ -112,9 +114,8 @@ public class ModelGame {
      */
     private void setPalabrasNivel(){
 
-        ArrayList<String> palabrasAMemorizar=palabrasMemorizar;
-        ArrayList<String> palabrasADistraer=palabrasDistraccion;
-
+        ArrayList<String> palabrasAMemorizar=new ArrayList<>(palabrasMemorizar);
+        ArrayList<String> palabrasADistraer=new ArrayList<>(palabrasDistraccion);
         while (palabrasNivel.size()<palabrasEnNivel) {
             Random aleatory = new Random();
 
@@ -130,7 +131,6 @@ public class ModelGame {
                 palabrasADistraer.remove(0);
             }
         }
-
     }
 
     /**
@@ -150,7 +150,7 @@ public class ModelGame {
     /**
      * check if it's a word to memorize
      * @param palabra word to check
-     * @return whether or not
+     * @return whether
      */
     private boolean esPalabraAMemorizar(String palabra){
         boolean esPalabraA= false;
