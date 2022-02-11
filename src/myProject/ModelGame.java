@@ -213,5 +213,9 @@ public class ModelGame {
         }
         return palabraMemorizar;
     }
+    public int getAciertosNivel(){
+        setPorcentajeAciertos();
+        return (int) Math.ceil(palabrasEnNivel/2 * porcentajeAciertos);
+    }
 
 }
