@@ -67,6 +67,7 @@ public class ModelGame {
             flagNivel=0;
             flagMemorizar=0;
             setPalabrasEnNivel();
+            aciertos=0;
             palabraAMostrar="";
             palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
             palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
@@ -169,8 +170,8 @@ public class ModelGame {
      */
     public void setAciertos( boolean respuestaUsuario){
         boolean respuestaCorrecta= esPalabraAMemorizar(palabraAMostrar);
-        if (respuestaUsuario== respuestaCorrecta){
-               aciertos++;
+        if (respuestaUsuario == respuestaCorrecta){
+            aciertos++;
         }
     }
 
@@ -212,5 +213,4 @@ public class ModelGame {
         setPorcentajeAciertos();
         return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
     }
-
 }
