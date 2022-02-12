@@ -77,7 +77,6 @@ public class Diccionario {
      */
     private int buscarUsuario(){
         int posicion=-1;
-        usuariosRegistrados = fileManager.lecturaFile("usuarios");
         for (int i = 0; i < usuariosRegistrados.size()&&usuariosRegistrados.get(i).length()!=0;i++) {
             String thisUser = usuariosRegistrados.get(i).substring(0, usuariosRegistrados.get(i).lastIndexOf(":"));
             if (thisUser.equals(userName)){

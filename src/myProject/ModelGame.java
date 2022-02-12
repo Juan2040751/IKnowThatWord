@@ -57,17 +57,25 @@ public class ModelGame {
      * check if it is sufficient to pass the level
      */
     private void setNivelesAprobados(){
+        /**
+         * when the user won
+         */
         if(aciertos>=palabrasEnNivel*porcentajeAciertos){
             nivelesAprobados= diccionario.setNivelUser();
             setNivelActual();
             flagNivel=0;
             flagMemorizar=0;
         }
+
+        /**
+         * when the user lost
+         */
+
         else{
             flagNivel=0;
             flagMemorizar=0;
-            setPalabrasEnNivel();
             aciertos=0;
+            setPalabrasEnNivel();
             palabraAMostrar="";
             palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
             palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
@@ -170,7 +178,7 @@ public class ModelGame {
      */
     public void setAciertos( boolean respuestaUsuario){
         boolean respuestaCorrecta= esPalabraAMemorizar(palabraAMostrar);
-        if (respuestaUsuario == respuestaCorrecta){
+        if (respuestaUsuario== respuestaCorrecta){
             aciertos++;
         }
     }
@@ -213,4 +221,5 @@ public class ModelGame {
         setPorcentajeAciertos();
         return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
     }
+
 }
