@@ -111,4 +111,3 @@ public class Diccionario {
         return getNivelesUser();
     }
 }
-
