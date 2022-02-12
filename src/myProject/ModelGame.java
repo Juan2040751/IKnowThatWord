@@ -93,8 +93,7 @@ public class ModelGame {
     /**
      * assigns the number of words to be displayed in the game
      */
-    private void
-    setPalabrasEnNivel(){
+    private void setPalabrasEnNivel(){
         switch (nivelActual){
             case 1-> palabrasEnNivel=20;
             case 2-> palabrasEnNivel=40;
@@ -143,6 +142,7 @@ public class ModelGame {
             flagNivel++;
         }else{
             setNivelesAprobados();
+            palabraAMostrar="";
         }
         return palabraAMostrar;
     }
@@ -174,11 +174,6 @@ public class ModelGame {
         }
     }
 
-    /**
-     * method overload in case of no response..
-     */
-    public void setAciertos(){
-    }
 
     /**
      * @return the number of success
@@ -212,6 +207,10 @@ public class ModelGame {
             flagMemorizar++;
         }
         return palabraMemorizar;
+    }
+    public int getAciertosNivel(){
+        setPorcentajeAciertos();
+        return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
     }
 
 }
