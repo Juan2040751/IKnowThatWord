@@ -81,6 +81,7 @@ public class ModelGame {
             flagMemorizar=0;
             aciertos=0;
             setPalabrasEnNivel();
+            aciertos=0;
             palabraAMostrar="";
             palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
             palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
@@ -137,22 +138,22 @@ public class ModelGame {
                 palabrasAMemorizar.remove(0);
             }
             /** probar primero
-            aletorio = aleatory.nextInt(0,3);
-            for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
-                palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
-                palabrasADistraer.remove(palabrasADistraer.size()-1);
-            }*/
+             aletorio = aleatory.nextInt(0,3);
+             for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
+             palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
+             palabrasADistraer.remove(palabrasADistraer.size()-1);
+             }*/
             aletorio = aleatory.nextInt(0,3);
             for (int otherI=0;otherI<=aletorio&&palabrasAMemorizar.size()>0;otherI++){
                 palabrasNivel.add(palabrasAMemorizar.get(0));
                 palabrasAMemorizar.remove(0);
             }
             /** probar primero
-            aletorio = aleatory.nextInt(0,3);
-            for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
-                palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
-                palabrasADistraer.remove(palabrasADistraer.size()-1);
-            }*/
+             aletorio = aleatory.nextInt(0,3);
+             for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
+             palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
+             palabrasADistraer.remove(palabrasADistraer.size()-1);
+             }*/
         }
     }
 
@@ -193,7 +194,7 @@ public class ModelGame {
      */
     public void setAciertos( boolean respuestaUsuario){
         boolean respuestaCorrecta= esPalabraAMemorizar(palabraAMostrar);
-        if (respuestaUsuario== respuestaCorrecta){
+        if (respuestaUsuario == respuestaCorrecta){
             aciertos++;
         }
     }
@@ -241,5 +242,4 @@ public class ModelGame {
         setPorcentajeAciertos();
         return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
     }
-
 }

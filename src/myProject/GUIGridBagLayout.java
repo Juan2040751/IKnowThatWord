@@ -161,19 +161,23 @@ public class GUIGridBagLayout extends JFrame {
     private class Escucha implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println(1);
             if(e.getSource()==registrar){
+                System.out.println(2);
                 if (!nombreUsuario.getText().equals("")) {
+                    System.out.println(3);
                     if (flag == 0) {
+                        System.out.println(4);
                         modelGame = new ModelGame(nombreUsuario.getText());
                         panelInteraccion.remove(nombreUsuario);
                         headerProject.setVisible(true);
                         panelInteraccion.remove(inicio);
                         flag=1;
                         panelDatos.removeAll();
-
+                        System.out.println(4.1);
                         panelInteraccion.setPreferredSize(new Dimension(396, 500));
                         panelDatos.setPreferredSize(new Dimension(264, 500));
-
+                        System.out.println(4.2);
                         nivel = new JTextArea();
                         nivel.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 25));
                         nivel.setBackground(null);
@@ -183,7 +187,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsDatos.fill = GridBagConstraints.NONE;
                         constrainsDatos.anchor = GridBagConstraints.CENTER;
                         panelDatos.add(nivel, constrainsDatos);
-
+                        System.out.println(4.3);
                         aciertos = new JTextArea();
                         aciertos.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
                         aciertos.setSize(200, 30);
@@ -196,7 +200,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsInteraccion.weighty = 50;
                         constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                         panelInteraccion.add(aciertos, constrainsInteraccion);
-
+                        System.out.println(4.4);
                         tiempo = new JTextArea();
                         tiempo.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
                         tiempo.setSize(200, 30);
@@ -209,7 +213,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsInteraccion.weighty = 50;
                         constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                         panelInteraccion.add(tiempo, constrainsInteraccion);
-
+                        System.out.println(4.5);
                         palabra = new JTextArea();
                         palabra.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 50));
                         palabra.setBackground(null);
@@ -221,7 +225,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsInteraccion.fill = GridBagConstraints.NONE;
                         constrainsInteraccion.anchor = GridBagConstraints.SOUTH;
                         panelInteraccion.add(palabra, constrainsInteraccion);
-
+                        System.out.println(4.6);
                         espacioVacio = new JTextArea();
                         espacioVacio.setText("");
                         espacioVacio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
@@ -239,11 +243,10 @@ public class GUIGridBagLayout extends JFrame {
                         timer.addActionListener(escucha);
                         tiempo.setVisible(true);
                         datos.setVisible(false);
-
                         timer.setDelay(5000);
                         timer.setInitialDelay(5000);
                     }
-
+                    System.out.println(5);
 
                     headerProject.setText("Debes memorizar las siguientes " + modelGame.palabrasEnNivel / 2 + " palabras");
 
@@ -267,16 +270,14 @@ public class GUIGridBagLayout extends JFrame {
                 }else{
                     inicio.setText("Debes ingresar un \nnombre de usuario");
                 }
-
+                System.out.println(6);
             }
             else if(e.getSource()==timer){
                 if (interfaz==2){
                     palabra.setText(modelGame.getPalabrasMemorizar());
 
                     //cuando ya no hay mas palabras para memorizar
-
                     if (palabra.getText().equals("")){
-                      
                         timer.stop();
                         temporizador.stop();
                         interfaz=3;
@@ -361,7 +362,6 @@ public class GUIGridBagLayout extends JFrame {
                 timer.setDelay(7000);
                 timer.setInitialDelay(7000);
                 timer.restart();
-
                 temporizador.start();
 
 
