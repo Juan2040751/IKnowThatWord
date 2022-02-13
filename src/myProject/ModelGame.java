@@ -131,27 +131,18 @@ public class ModelGame {
         while (palabrasNivel.size()<palabrasEnNivel) {
             Random aleatory = new Random();
 
-            int aletorio = aleatory.nextInt(0,3);
+            int aletorio = aleatory.nextInt(0,2);
             for (int otherI=0;otherI<=aletorio&&palabrasAMemorizar.size()>0;otherI++){
-                palabrasNivel.add(palabrasAMemorizar.get(0));
-                palabrasAMemorizar.remove(0);
+                 int otroAleatorio=aleatory.nextInt(0,palabrasAMemorizar.size());
+                palabrasNivel.add(palabrasAMemorizar.get(otroAleatorio));
+                palabrasAMemorizar.remove(otroAleatorio);
             }
-            /** probar primero
-             aletorio = aleatory.nextInt(0,3);
-             for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
-             palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
-             palabrasADistraer.remove(palabrasADistraer.size()-1);
-             }
-             aletorio = aleatory.nextInt(0,3);
-             for (int otherI=0;otherI<=aletorio&&palabrasAMemorizar.size()>0;otherI++){
-             palabrasNivel.add(palabrasAMemorizar.get(palabrasADistraer.size()-1));
-             palabrasAMemorizar.remove(palabrasADistraer.size()-1);
-             }*/
 
             aletorio = aleatory.nextInt(0,3);
             for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
-                palabrasNivel.add(palabrasADistraer.get(0));
-                palabrasADistraer.remove(0);
+                int otroAleatorio=aleatory.nextInt(0,palabrasADistraer.size());
+                palabrasNivel.add(palabrasADistraer.get(otroAleatorio));
+                palabrasADistraer.remove(otroAleatorio);
             }
         }
     }
