@@ -4,6 +4,9 @@ package myProject;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Reads, Writes and modifies text files
+ */
 public class FileManager {
     public static final String bancoPalabras="src/myProject/files/bancoPalabras.txt";
     public static final String usuarios="src/myProject/files/usuarios.txt";
@@ -72,6 +75,12 @@ public class FileManager {
             }
         }
     }
+
+    /**
+     * modifies the level approved by the user in the text file
+     * @param nuevoNivel currently approved user levels
+     * @param posicion position where the user is in the text file
+     */
     public void modificarNivelAprobado( int nuevoNivel, int posicion){
         try {
             ArrayList<String> usuariosActulizados=lecturaFile("usuarios");

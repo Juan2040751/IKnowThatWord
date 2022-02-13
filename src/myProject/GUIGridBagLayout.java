@@ -239,6 +239,9 @@ public class GUIGridBagLayout extends JFrame {
                         timer.addActionListener(escucha);
                         tiempo.setVisible(true);
                         datos.setVisible(false);
+
+                        timer.setDelay(5000);
+                        timer.setInitialDelay(5000);
                     }
 
 
@@ -271,7 +274,9 @@ public class GUIGridBagLayout extends JFrame {
                     palabra.setText(modelGame.getPalabrasMemorizar());
 
                     //cuando ya no hay mas palabras para memorizar
-                    if (modelGame.getPalabrasMemorizar().equals("")){
+
+                    if (palabra.getText().equals("")){
+                      
                         timer.stop();
                         temporizador.stop();
                         interfaz=3;
@@ -355,8 +360,8 @@ public class GUIGridBagLayout extends JFrame {
 
                 timer.setDelay(7000);
                 timer.setInitialDelay(7000);
-
                 timer.restart();
+
                 temporizador.start();
 
 
