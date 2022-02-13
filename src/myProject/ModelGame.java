@@ -137,22 +137,22 @@ public class ModelGame {
                 palabrasAMemorizar.remove(0);
             }
             /** probar primero
+             aletorio = aleatory.nextInt(0,3);
+             for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
+             palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
+             palabrasADistraer.remove(palabrasADistraer.size()-1);
+             }
+             aletorio = aleatory.nextInt(0,3);
+             for (int otherI=0;otherI<=aletorio&&palabrasAMemorizar.size()>0;otherI++){
+             palabrasNivel.add(palabrasAMemorizar.get(palabrasADistraer.size()-1));
+             palabrasAMemorizar.remove(palabrasADistraer.size()-1);
+             }*/
+
             aletorio = aleatory.nextInt(0,3);
             for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
-                palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
-                palabrasADistraer.remove(palabrasADistraer.size()-1);
-            }*/
-            aletorio = aleatory.nextInt(0,3);
-            for (int otherI=0;otherI<=aletorio&&palabrasAMemorizar.size()>0;otherI++){
-                palabrasNivel.add(palabrasAMemorizar.get(0));
-                palabrasAMemorizar.remove(0);
+                palabrasNivel.add(palabrasADistraer.get(0));
+                palabrasADistraer.remove(0);
             }
-            /** probar primero
-            aletorio = aleatory.nextInt(0,3);
-            for (int otherI=0;otherI<=aletorio && palabrasADistraer.size()>0;otherI++){
-                palabrasNivel.add(palabrasADistraer.get(palabrasADistraer.size()-1));
-                palabrasADistraer.remove(palabrasADistraer.size()-1);
-            }*/
         }
     }
 
@@ -241,5 +241,4 @@ public class ModelGame {
         setPorcentajeAciertos();
         return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
     }
-
 }
