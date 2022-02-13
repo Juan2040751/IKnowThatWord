@@ -3,6 +3,11 @@ package myProject;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * return the words to be memorized and distracting words randomly from a text file
+ * scans and edits the information present in text files
+ * saves user information in text files
+ */
 public class Diccionario {
     FileManager fileManager;
     private ArrayList<String> diccionario = new ArrayList<String>();
@@ -23,11 +28,14 @@ public class Diccionario {
     }
 
     /**
-     * returns the words to memorize for the level
+     * returns the words to memorize for the level choosing them randomly from the information present in the text files
      * @param cantidadPalabras count of words to memorize
      * @return words to memorize
      */
     public ArrayList<String> getPalabrasMemorizar(int cantidadPalabras) {
+        if (palabrasMemorizar.size()>0){
+            palabrasMemorizar= new ArrayList<>();
+        }
         for (int i = 0; i < cantidadPalabras; i++) {
             Random aleatory = new Random();
             int indexAletorio = aleatory.nextInt(diccionario.size());
@@ -38,11 +46,14 @@ public class Diccionario {
     }
 
     /**
-     * returns the distraction words for the level
+     * returns the distraction words for the level choosing them randomly from the information present in the text files
      * @param cantidadPalabras count of distraction words
      * @return distraction words
      */
     public ArrayList<String> getPalabrasDistraccion(int cantidadPalabras) {
+        if (palabrasDistraccion.size()>0){
+            palabrasDistraccion= new ArrayList<>();
+        }
         for (int i = 0; i < cantidadPalabras; i++) {
             Random aleatory = new Random();
             int indexAletorio = aleatory.nextInt(diccionario.size());
@@ -93,13 +104,14 @@ public class Diccionario {
      * @return levels exceeded by the user
      */
     public int getNivelesUser(){
+        usuariosRegistrados = fileManager.lecturaFile("usuarios");
         String usuario= usuariosRegistrados.get(buscarUsuario());
         String nivelesEnString=usuario.substring(usuario.lastIndexOf(":")+2);
         return Integer.valueOf (nivelesEnString);
     }
 
     /**
-     * modifies the level of the game in the text file
+     * modifies the game level information
      * @return the new level of the game
      */
     public int setNivelUser(){
