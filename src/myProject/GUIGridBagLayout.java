@@ -16,14 +16,20 @@ public class GUIGridBagLayout extends JFrame {
     private Header headerProject;
     private JButton si, no, continuar, registrar;
     private JPanel panelInteraccion, panelDatos;
-    private JTextArea datos, nivel, inicio, palabra, tiempo, aciertos, espacioVacio;
+    private JTextArea datos;
+    private JTextArea nivel;
+    private JTextArea inicio;
+    private JTextArea palabra;
+    private JTextArea tiempo;
+    private JTextArea aciertos;
+    private JTextArea espacioVacio;
     private Escucha escucha;
     private ModelGame modelGame;
     private JLabel imagen;
     private JTextField nombreUsuario;
     private GridBagConstraints constrains, constrainsDatos, constrainsInteraccion;
     private Timer timer, temporizador ;
-    private int segundos, interfaz, flag;
+    private int segundos, interfaz, flag, aciertosNivel, aciertosParaNivel;
 
     /**
      * Constructor of GUI class
@@ -231,6 +237,11 @@ public class GUIGridBagLayout extends JFrame {
                     }
                     else {
                         timer.addActionListener(escucha);
+                        tiempo.setVisible(true);
+                        datos.setVisible(false);
+
+                        timer.setDelay(5000);
+                        timer.setInitialDelay(5000);
                     }
 
 
@@ -263,7 +274,9 @@ public class GUIGridBagLayout extends JFrame {
                     palabra.setText(modelGame.getPalabrasMemorizar());
 
                     //cuando ya no hay mas palabras para memorizar
-                    if (modelGame.getPalabrasMemorizar().equals("")){
+
+                    if (palabra.getText().equals("")){
+                      
                         timer.stop();
                         temporizador.stop();
                         interfaz=3;
@@ -318,6 +331,7 @@ public class GUIGridBagLayout extends JFrame {
                 datos.setText("Debes acertar "+modelGame.getAciertosNivel()+"\nPara ganar el nivel");
                 datos.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,25));
                 datos.setBackground(null);
+                datos.setVisible(true);
                 datos.setEditable(false);
                 constrainsDatos.gridx = 0;
                 constrainsDatos.gridy = 1;
@@ -326,6 +340,7 @@ public class GUIGridBagLayout extends JFrame {
                 constrainsDatos.fill =  GridBagConstraints.NONE;
                 constrainsDatos.anchor = GridBagConstraints.CENTER;
                 panelDatos.add(datos,constrainsDatos);
+                aciertosParaNivel=modelGame.getAciertosNivel();
 
                 si.setVisible(true);
                 constrainsInteraccion.gridx = 0;
@@ -345,8 +360,8 @@ public class GUIGridBagLayout extends JFrame {
 
                 timer.setDelay(7000);
                 timer.setInitialDelay(7000);
-
                 timer.restart();
+
                 temporizador.start();
 
 
@@ -358,7 +373,8 @@ public class GUIGridBagLayout extends JFrame {
                 segundos=7;
                 tiempo.setText("    " + segundos + "    ");
                 timer.restart();
-            }else if(e.getSource()==no){
+            }
+            else if(e.getSource()==no){
                 modelGame.setAciertos(false);
                 aciertos.setText("Aciertos: "+modelGame.getAciertos());
                 getPalabraNivel();
@@ -371,13 +387,18 @@ public class GUIGridBagLayout extends JFrame {
             revalidate();
         }
         private void getPalabraNivel(){
-            palabra.setText(modelGame.getPalabrasNivel());
+            aciertosNivel=modelGame.getAciertos();
 
+            palabra.setText(modelGame.getPalabrasNivel());
+            /**
+             *
+             */
             if (palabra.getText().equals("")){
 
 
                 temporizador.stop();
-
+                aciertos.setText("");
+                tiempo.setVisible(false);
                 registrar.setVisible(true);
                 constrainsInteraccion.gridx = 0;
                 constrainsInteraccion.gridy = 2;
@@ -390,6 +411,13 @@ public class GUIGridBagLayout extends JFrame {
                 si.setVisible(false);
                 no.setVisible(false);
 
+
+                if (aciertosNivel>=aciertosParaNivel){
+                    datos.setText("Felicitaciones ganaste \nahora puedes avanzar de nivel");
+                }else{
+                    datos.setText("Perdiste, puedes \nvolver a intentarlo");
+                }
+
                 palabra.setText("¿Deseas continuar a \nal siguiente nivel?");
                 palabra.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,40));
 
@@ -398,7 +426,11 @@ public class GUIGridBagLayout extends JFrame {
 
                 timer.stop();
                 timer.removeActionListener(escucha);
+
+                repaint();
+                revalidate();
             }
         }
+
     }
 }
