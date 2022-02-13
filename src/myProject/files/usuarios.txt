@@ -1,4 +1,2 @@
 Juan: 1
-: 0
-Jujo: 0
-bbb: 0
+Jujo: 2
