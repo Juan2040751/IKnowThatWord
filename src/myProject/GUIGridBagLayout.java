@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * This class is used for ...
+ * This class is used for to graph the game
  *  @autor Fabian Lopez - fabian.muriel@correounivalle.edu.co
  *  @autor Juan Jose viafara - Viafara.juan@correounivalle.edu.co
  * @version v.1.0.0 date:03/02/2022
@@ -161,23 +161,25 @@ public class GUIGridBagLayout extends JFrame {
     private class Escucha implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(1);
+            /**
+             * 'registrar' button, responsible for calling modelGame to save the user and move to the next phase of the game.
+             */
             if(e.getSource()==registrar){
-                System.out.println(2);
+
                 if (!nombreUsuario.getText().equals("")) {
                     System.out.println(3);
                     if (flag == 0) {
-                        System.out.println(4);
+
                         modelGame = new ModelGame(nombreUsuario.getText());
                         panelInteraccion.remove(nombreUsuario);
                         headerProject.setVisible(true);
                         panelInteraccion.remove(inicio);
                         flag=1;
                         panelDatos.removeAll();
-                        System.out.println(4.1);
+
                         panelInteraccion.setPreferredSize(new Dimension(396, 500));
                         panelDatos.setPreferredSize(new Dimension(264, 500));
-                        System.out.println(4.2);
+
                         nivel = new JTextArea();
                         nivel.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 25));
                         nivel.setBackground(null);
@@ -187,7 +189,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsDatos.fill = GridBagConstraints.NONE;
                         constrainsDatos.anchor = GridBagConstraints.CENTER;
                         panelDatos.add(nivel, constrainsDatos);
-                        System.out.println(4.3);
+
                         aciertos = new JTextArea();
                         aciertos.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
                         aciertos.setSize(200, 30);
@@ -200,7 +202,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsInteraccion.weighty = 50;
                         constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                         panelInteraccion.add(aciertos, constrainsInteraccion);
-                        System.out.println(4.4);
+
                         tiempo = new JTextArea();
                         tiempo.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
                         tiempo.setSize(200, 30);
@@ -213,7 +215,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsInteraccion.weighty = 50;
                         constrainsInteraccion.anchor = GridBagConstraints.CENTER;
                         panelInteraccion.add(tiempo, constrainsInteraccion);
-                        System.out.println(4.5);
+
                         palabra = new JTextArea();
                         palabra.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 50));
                         palabra.setBackground(null);
@@ -225,7 +227,7 @@ public class GUIGridBagLayout extends JFrame {
                         constrainsInteraccion.fill = GridBagConstraints.NONE;
                         constrainsInteraccion.anchor = GridBagConstraints.SOUTH;
                         panelInteraccion.add(palabra, constrainsInteraccion);
-                        System.out.println(4.6);
+
                         espacioVacio = new JTextArea();
                         espacioVacio.setText("");
                         espacioVacio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
@@ -246,7 +248,6 @@ public class GUIGridBagLayout extends JFrame {
                         timer.setDelay(5000);
                         timer.setInitialDelay(5000);
                     }
-                    System.out.println(5);
 
                     headerProject.setText("Debes memorizar las siguientes " + modelGame.palabrasEnNivel / 2 + " palabras");
 
@@ -270,7 +271,9 @@ public class GUIGridBagLayout extends JFrame {
                 }else{
                     inicio.setText("Debes ingresar un \nnombre de usuario");
                 }
-                System.out.println(6);
+                /**
+                 * 'timer' is responsible for keeping time between each word
+                 */
             }
             else if(e.getSource()==timer){
                 if (interfaz==2){
@@ -317,6 +320,9 @@ public class GUIGridBagLayout extends JFrame {
                 tiempo.setText("    " + segundos + "    ");
 
             }
+            /**
+             * 'continuar' button, responsible for moving to the next stage of the game when you run out of words to display and when you pass or repeat a level.
+             */
             else if(e.getSource()==continuar){
 
                 segundos=7;
@@ -366,6 +372,9 @@ public class GUIGridBagLayout extends JFrame {
 
 
             }
+            /**
+             * 'si' button, responsible for getting it right
+             */
             else if(e.getSource()==si){
                 modelGame.setAciertos(true);
                 aciertos.setText("Aciertos: "+modelGame.getAciertos());
@@ -374,6 +383,9 @@ public class GUIGridBagLayout extends JFrame {
                 tiempo.setText("    " + segundos + "    ");
                 timer.restart();
             }
+            /**
+             * 'no' button, responsible for getting it right
+             */
             else if(e.getSource()==no){
                 modelGame.setAciertos(false);
                 aciertos.setText("Aciertos: "+modelGame.getAciertos());
@@ -386,12 +398,16 @@ public class GUIGridBagLayout extends JFrame {
             repaint();
             revalidate();
         }
+
+        /**
+         * responsible
+         */
         private void getPalabraNivel(){
             aciertosNivel=modelGame.getAciertos();
 
             palabra.setText(modelGame.getPalabrasNivel());
             /**
-             *
+             * responsible for displaying the level you are at and the win/lose messages at the end of each phase.
              */
             if (palabra.getText().equals("")){
 
