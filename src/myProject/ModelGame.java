@@ -45,7 +45,7 @@ public class ModelGame {
             palabrasNivel= new ArrayList<>();
             setPalabrasNivel();
         }
-        System.out.println(palabrasMemorizar);
+
     }
 
     /**
