@@ -37,11 +37,15 @@ public class ModelGame {
         flagMemorizar=0;
         flagNivel=0;
         setNivelActual();
-        if (nivelesAprobados<8) {
-            nivelActual = nivelesAprobados + 1;
-        }else {
+        if (nivelesAprobados>=8)  {
             nivelActual = nivelesAprobados;
+            setPalabrasEnNivel();
+            palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
+            palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
+            palabrasNivel= new ArrayList<>();
+            setPalabrasNivel();
         }
+
     }
 
     /**

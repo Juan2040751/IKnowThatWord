@@ -167,7 +167,6 @@ public class GUIGridBagLayout extends JFrame {
             if(e.getSource()==registrar){
 
                 if (!nombreUsuario.getText().equals("")) {
-                    System.out.println(3);
                     if (flag == 0) {
 
                         modelGame = new ModelGame(nombreUsuario.getText());
@@ -400,15 +399,13 @@ public class GUIGridBagLayout extends JFrame {
         }
 
         /**
-         * responsible
+         * responsible for displaying the level you are at and the win/lose messages at the end of each phase.
          */
         private void getPalabraNivel(){
             aciertosNivel=modelGame.getAciertos();
 
             palabra.setText(modelGame.getPalabrasNivel());
-            /**
-             * responsible for displaying the level you are at and the win/lose messages at the end of each phase.
-             */
+
             if (palabra.getText().equals("")){
 
 
