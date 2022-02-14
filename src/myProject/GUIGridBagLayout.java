@@ -167,7 +167,6 @@ public class GUIGridBagLayout extends JFrame {
             if(e.getSource()==registrar){
 
                 if (!nombreUsuario.getText().equals("")) {
-                    System.out.println(3);
                     if (flag == 0) {
 
                         modelGame = new ModelGame(nombreUsuario.getText());
