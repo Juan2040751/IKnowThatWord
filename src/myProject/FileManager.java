@@ -84,6 +84,8 @@ public class FileManager {
     public void modificarNivelAprobado( int nuevoNivel, int posicion){
         try {
             ArrayList<String> usuariosActulizados=lecturaFile("usuarios");
+            usuariosActulizados.add(0,"--NombreDeUsuario: nivelAprobado--");
+            posicion++;
             String usuarioAntiguo=usuariosActulizados.get(posicion);
             String usuarioActualizado = usuarioAntiguo.substring(0, usuarioAntiguo.lastIndexOf(":")+2) +  nuevoNivel;
             usuariosActulizados.remove(posicion);
