@@ -91,7 +91,7 @@ public class GUIGridBagLayout extends JFrame {
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelInteraccion, constrains);
 
-        inicio.setText("REGISTRA TU USUARIO \nO CREA UNO");
+        inicio.setText("INGRESA TU USUARIO \nO CREA UNO");
         inicio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 18));
         inicio.setBackground(null);
         inicio.setEditable(false);
