@@ -117,9 +117,9 @@ public class Diccionario {
     public int setNivelUser(){
         if(getNivelesUser()<10){
             fileManager.modificarNivelAprobado(getNivelesUser()+1,buscarUsuario());
-        }else{
+        }/*else{
             fileManager.modificarNivelAprobado(0,buscarUsuario());
-        }
+        }*/
         return getNivelesUser();
     }
 }

@@ -37,7 +37,7 @@ public class ModelGame {
         flagMemorizar=0;
         flagNivel=0;
         setNivelActual();
-        if (nivelesAprobados>=8)  {
+        if (nivelesAprobados==10)  {
             nivelActual = nivelesAprobados;
             setPalabrasEnNivel();
             palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
@@ -45,7 +45,6 @@ public class ModelGame {
             palabrasNivel= new ArrayList<>();
             setPalabrasNivel();
         }
-
     }
 
     /**
@@ -53,13 +52,15 @@ public class ModelGame {
      */
     private void setNivelActual(){
         aciertos=0;
-        nivelActual=nivelesAprobados+1;
-        setPalabrasEnNivel();
-        palabraAMostrar="";
-        palabrasDistraccion=diccionario.getPalabrasDistraccion(palabrasEnNivel/2);
-        palabrasMemorizar=diccionario.getPalabrasMemorizar(palabrasEnNivel/2);
-        palabrasNivel= new ArrayList<>();
-        setPalabrasNivel();
+        if(nivelesAprobados<10) {
+            nivelActual = nivelesAprobados + 1;
+            setPalabrasEnNivel();
+            palabraAMostrar = "";
+            palabrasDistraccion = diccionario.getPalabrasDistraccion(palabrasEnNivel / 2);
+            palabrasMemorizar = diccionario.getPalabrasMemorizar(palabrasEnNivel / 2);
+            palabrasNivel = new ArrayList<>();
+            setPalabrasNivel();
+        }
     }
 
     /**
@@ -235,5 +236,9 @@ public class ModelGame {
     public int getAciertosNivel(){
         setPorcentajeAciertos();
         return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
+    }
+
+    public int getNivelesAprobados() {
+        return nivelesAprobados;
     }
 }

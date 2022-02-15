@@ -30,6 +30,7 @@ public class GUIGridBagLayout extends JFrame {
     private GridBagConstraints constrains, constrainsDatos, constrainsInteraccion;
     private Timer timer, temporizador ;
     private int segundos, interfaz, flag, aciertosNivel, aciertosParaNivel;
+    private boolean informacionLista;
 
     /**
      * Constructor of GUI class
@@ -67,6 +68,7 @@ public class GUIGridBagLayout extends JFrame {
 
         interfaz=1;
         flag=0;
+        informacionLista=false;
 
         headerProject = new Header("", Color.BLACK);
         headerProject.setPreferredSize(new Dimension(20, 30));
@@ -91,8 +93,8 @@ public class GUIGridBagLayout extends JFrame {
         constrains.anchor = GridBagConstraints.CENTER;
         add(panelInteraccion, constrains);
 
-        inicio.setText("REGISTRA TU USUARIO \nO CREA UNO");
-        inicio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 18));
+        inicio.setText("INGRESA TU USUARIO \nO CREA UNO");
+        inicio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 25));
         inicio.setBackground(null);
         inicio.setEditable(false);
         constrainsInteraccion.gridx = 0;
@@ -141,7 +143,7 @@ public class GUIGridBagLayout extends JFrame {
 
 
         temporizador = new Timer(1000, escucha);
-        timer = new Timer(5000, escucha);
+        timer = new Timer(3000, escucha);
     }
 
     /**
@@ -167,105 +169,25 @@ public class GUIGridBagLayout extends JFrame {
             if(e.getSource()==registrar){
 
                 if (!nombreUsuario.getText().equals("")) {
-                    if (flag == 0) {
-
+                    if(flag==0){
                         modelGame = new ModelGame(nombreUsuario.getText());
                         panelInteraccion.remove(nombreUsuario);
-                        headerProject.setVisible(true);
-                        panelInteraccion.remove(inicio);
-                        flag=1;
-                        panelDatos.removeAll();
-
-                        panelInteraccion.setPreferredSize(new Dimension(396, 500));
-                        panelDatos.setPreferredSize(new Dimension(264, 500));
-
-                        nivel = new JTextArea();
-                        nivel.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 25));
-                        nivel.setBackground(null);
-                        nivel.setEditable(false);
-                        constrainsDatos.gridx = 0;
-                        constrainsDatos.gridy = 0;
-                        constrainsDatos.fill = GridBagConstraints.NONE;
-                        constrainsDatos.anchor = GridBagConstraints.CENTER;
-                        panelDatos.add(nivel, constrainsDatos);
-
-                        aciertos = new JTextArea();
-                        aciertos.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
-                        aciertos.setSize(200, 30);
-                        aciertos.setBackground(null);
-                        aciertos.setEditable(false);
-                        constrainsInteraccion.gridx = 0;
-                        constrainsInteraccion.gridy = 0;
-                        constrainsInteraccion.gridwidth = 1;
-                        constrainsInteraccion.weightx = 180;
-                        constrainsInteraccion.weighty = 50;
-                        constrainsInteraccion.anchor = GridBagConstraints.CENTER;
-                        panelInteraccion.add(aciertos, constrainsInteraccion);
-
-                        tiempo = new JTextArea();
-                        tiempo.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
-                        tiempo.setSize(200, 30);
-                        tiempo.setBackground(new Color(34, 85, 85));
-                        tiempo.setEditable(false);
-                        constrainsInteraccion.gridx = 1;
-                        constrainsInteraccion.gridy = 0;
-                        constrainsInteraccion.gridwidth = 1;
-                        constrainsInteraccion.weightx = 180;
-                        constrainsInteraccion.weighty = 50;
-                        constrainsInteraccion.anchor = GridBagConstraints.CENTER;
-                        panelInteraccion.add(tiempo, constrainsInteraccion);
-
-                        palabra = new JTextArea();
-                        palabra.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 50));
-                        palabra.setBackground(null);
-                        palabra.setEditable(false);
-                        constrainsInteraccion.gridx = 0;
-                        constrainsInteraccion.gridy = 1;
-                        constrainsInteraccion.gridwidth = 2;
-                        constrainsInteraccion.weighty = 200;
-                        constrainsInteraccion.fill = GridBagConstraints.NONE;
-                        constrainsInteraccion.anchor = GridBagConstraints.SOUTH;
-                        panelInteraccion.add(palabra, constrainsInteraccion);
-
-                        espacioVacio = new JTextArea();
-                        espacioVacio.setText("");
-                        espacioVacio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
-                        espacioVacio.setSize(200, 30);
-                        espacioVacio.setBackground(null);
-                        espacioVacio.setEditable(false);
-                        constrainsInteraccion.gridx = 0;
-                        constrainsInteraccion.gridy = 2;
-                        constrainsInteraccion.gridwidth = 2;
-                        constrainsInteraccion.weighty = 250;
-                        constrainsInteraccion.anchor = GridBagConstraints.NORTH;
-                        panelInteraccion.add(espacioVacio, constrainsInteraccion);
+                        if (modelGame.nuevoUsuario){
+                            inicio.setText("Bienvenido "+ nombreUsuario.getText()+
+                                    "\n¡entrenemos tu memoria!");
+                        }else{
+                            inicio.setText("Bienvenido de nuevo "+ nombreUsuario.getText()+
+                                   "\nHas aprobado el nivel "+ modelGame.getNivelesAprobados());
+                            if (modelGame.getNivelesAprobados()==0){
+                                inicio.setText("Bienvenido de nuevo "+ nombreUsuario.getText()+
+                                        "\nno aprobaste el nivel 1");
+                            }
+                        }
+                        registrar.setVisible(false);
+                        timer.start();
+                    }else{
+                        setInterfaz();
                     }
-                    else {
-                        timer.addActionListener(escucha);
-                        tiempo.setVisible(true);
-                        datos.setVisible(false);
-                        timer.setDelay(5000);
-                        timer.setInitialDelay(5000);
-                    }
-
-                    headerProject.setText("Debes memorizar las siguientes " + modelGame.palabrasEnNivel / 2 + " palabras");
-
-                    registrar.setVisible(false);
-
-                    nivel.setText("Nivel: " + modelGame.getNivelActual());
-                    aciertos.setText("");
-
-                    segundos = 5;
-                    tiempo.setText("    " + segundos + "    ");
-
-                    palabra.setText(modelGame.getPalabrasMemorizar());
-
-                    espacioVacio.setVisible(true);
-
-                    interfaz = 2;
-
-                    timer.start();
-                    temporizador.start();
 
                 }else{
                     inicio.setText("Debes ingresar un \nnombre de usuario");
@@ -275,7 +197,13 @@ public class GUIGridBagLayout extends JFrame {
                  */
             }
             else if(e.getSource()==timer){
-                if (interfaz==2){
+                if(interfaz==1){
+
+                    timer.stop();
+                    timer.removeActionListener(escucha);
+                    setInterfaz();
+                }
+                else if (interfaz==2){
                     palabra.setText(modelGame.getPalabrasMemorizar());
 
                     //cuando ya no hay mas palabras para memorizar
@@ -427,11 +355,13 @@ public class GUIGridBagLayout extends JFrame {
 
                 if (aciertosNivel>=aciertosParaNivel){
                     datos.setText("Felicitaciones ganaste \nahora puedes avanzar de nivel");
+                    palabra.setText("¿Deseas continuar \nal siguiente nivel?");
                 }else{
                     datos.setText("Perdiste, puedes \nvolver a intentarlo");
+                    palabra.setText("¿Deseas volver a \n jugar el nivel?");
                 }
 
-                palabra.setText("¿Deseas continuar a \nal siguiente nivel?");
+
                 palabra.setFont(new Font(Font.DIALOG,Font.BOLD+Font.ITALIC,40));
 
                 segundos=0;
@@ -444,6 +374,105 @@ public class GUIGridBagLayout extends JFrame {
                 revalidate();
             }
         }
+        private void setInterfaz(){
 
+            if (flag == 0) {
+
+                headerProject.setVisible(true);
+                panelInteraccion.remove(inicio);
+                flag=1;
+                panelDatos.removeAll();
+
+                panelInteraccion.setPreferredSize(new Dimension(396, 500));
+                panelDatos.setPreferredSize(new Dimension(264, 500));
+
+                nivel = new JTextArea();
+                nivel.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 25));
+                nivel.setBackground(null);
+                nivel.setEditable(false);
+                constrainsDatos.gridx = 0;
+                constrainsDatos.gridy = 0;
+                constrainsDatos.fill = GridBagConstraints.NONE;
+                constrainsDatos.anchor = GridBagConstraints.CENTER;
+                panelDatos.add(nivel, constrainsDatos);
+
+                aciertos = new JTextArea();
+                aciertos.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
+                aciertos.setSize(200, 30);
+                aciertos.setBackground(null);
+                aciertos.setEditable(false);
+                constrainsInteraccion.gridx = 0;
+                constrainsInteraccion.gridy = 0;
+                constrainsInteraccion.gridwidth = 1;
+                constrainsInteraccion.weightx = 180;
+                constrainsInteraccion.weighty = 50;
+                constrainsInteraccion.anchor = GridBagConstraints.CENTER;
+                panelInteraccion.add(aciertos, constrainsInteraccion);
+
+                tiempo = new JTextArea();
+                tiempo.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
+                tiempo.setSize(200, 30);
+                tiempo.setBackground(new Color(34, 85, 85));
+                tiempo.setEditable(false);
+                constrainsInteraccion.gridx = 1;
+                constrainsInteraccion.gridy = 0;
+                constrainsInteraccion.gridwidth = 1;
+                constrainsInteraccion.weightx = 180;
+                constrainsInteraccion.weighty = 50;
+                constrainsInteraccion.anchor = GridBagConstraints.CENTER;
+                panelInteraccion.add(tiempo, constrainsInteraccion);
+
+                palabra = new JTextArea();
+                palabra.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 50));
+                palabra.setBackground(null);
+                palabra.setEditable(false);
+                constrainsInteraccion.gridx = 0;
+                constrainsInteraccion.gridy = 1;
+                constrainsInteraccion.gridwidth = 2;
+                constrainsInteraccion.weighty = 200;
+                constrainsInteraccion.fill = GridBagConstraints.NONE;
+                constrainsInteraccion.anchor = GridBagConstraints.SOUTH;
+                panelInteraccion.add(palabra, constrainsInteraccion);
+
+                espacioVacio = new JTextArea();
+                espacioVacio.setText("");
+                espacioVacio.setFont(new Font(Font.DIALOG, Font.BOLD + Font.ITALIC, 30));
+                espacioVacio.setSize(200, 30);
+                espacioVacio.setBackground(null);
+                espacioVacio.setEditable(false);
+                constrainsInteraccion.gridx = 0;
+                constrainsInteraccion.gridy = 2;
+                constrainsInteraccion.gridwidth = 2;
+                constrainsInteraccion.weighty = 250;
+                constrainsInteraccion.anchor = GridBagConstraints.NORTH;
+                panelInteraccion.add(espacioVacio, constrainsInteraccion);
+            }
+            else {
+                tiempo.setVisible(true);
+                datos.setVisible(false);
+            }
+
+            headerProject.setText("Debes memorizar las siguientes " + modelGame.palabrasEnNivel / 2 + " palabras");
+
+            registrar.setVisible(false);
+
+            nivel.setText("Nivel: " + modelGame.getNivelActual());
+            aciertos.setText("");
+
+            segundos = 5;
+            tiempo.setText("    " + segundos + "    ");
+
+            palabra.setText(modelGame.getPalabrasMemorizar());
+
+            espacioVacio.setVisible(true);
+
+            interfaz = 2;
+
+            timer.addActionListener(escucha);
+            timer.setDelay(5000);
+            timer.setInitialDelay(5000);
+            timer.start();
+            temporizador.start();
+        }
     }
 }
