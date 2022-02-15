@@ -237,4 +237,8 @@ public class ModelGame {
         setPorcentajeAciertos();
         return (int) Math.ceil(palabrasEnNivel * porcentajeAciertos);
     }
+
+    public int getNivelesAprobados() {
+        return nivelesAprobados;
+    }
 }
